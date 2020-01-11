@@ -15,12 +15,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.example.demo.consumer.MyTopicConsumer;
 import com.example.demo.entity.IndustryNews;
 import com.example.demo.entity.IndustryNewsVo;
+import com.example.demo.entity.Topic;
 import com.example.demo.repository.IndustryNewsRepository;
-import com.google.gson.Gson;
 
 @RestController
 public class KafkaController {
-	private KafkaTemplate<String, String> kafkaTemplate;
+	private KafkaTemplate<String, Topic> kafkaTemplate;
 	private MyTopicConsumer myTopicConsumer;
 	@Autowired
 	private RestTemplate restTemplate;
@@ -31,7 +31,7 @@ public class KafkaController {
 
 	private String industry_news_uri = "http://api.saverisk.com/rest/v1/company?key=0de23766-f58a-4168-814c-bd578d92e635&d=PF_Industry_News&q=";
 
-	public KafkaController(KafkaTemplate<String, String> template, MyTopicConsumer myTopicConsumer) {
+	public KafkaController(KafkaTemplate<String, Topic> template, MyTopicConsumer myTopicConsumer) {
 		this.kafkaTemplate = template;
 		this.myTopicConsumer = myTopicConsumer;
 	}
@@ -46,7 +46,8 @@ public class KafkaController {
 					.bodyToMono(IndustryNewsVo.class).block();
 			System.out.println("Flux created");
 			mono.getIndustryNewsList().forEach(news -> {
-				kafkaTemplate.send("myTopic", new Gson().toJson(news));
+//				kafkaTemplate.send("myTopic", new Gson().toJson(news));
+				kafkaTemplate.send("myTopic", new Topic(message, "kafka course", "kafka description"));
 			});
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -81,7 +82,6 @@ public class KafkaController {
 			newsRepository.saveAll(newsList);
 		} else
 			System.out.println("topic is null");
-
 	}
 
 	@GetMapping("/kafka/messages")
