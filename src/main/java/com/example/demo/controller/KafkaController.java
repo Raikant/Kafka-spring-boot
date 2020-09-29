@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,27 +39,8 @@ public class KafkaController {
 
 	@GetMapping("/kafka/produce")
 	public void produce(@RequestParam String message) {
-		newsRepository.deleteAllEntities();
-//		ResponseEntity<IndustryNewsVo> industryNewsVO = restTemplate.getForEntity(industry_news_uri + message,
-//				IndustryNewsVo.class);
-		try {
-			IndustryNewsVo mono = webClientBuilder.build().get().uri(industry_news_uri + message).retrieve()
-					.bodyToMono(IndustryNewsVo.class).block();
-			System.out.println("Flux created");
-			mono.getIndustryNewsList().forEach(news -> {
-//				kafkaTemplate.send("myTopic", new Gson().toJson(news));
-				kafkaTemplate.send("myTopic", new Topic(message, "kafka course", "kafka description"));
-			});
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-//		if (industryNewsVO != null)
-//			industryNewsVO.getBody().getIndustryNewsList().forEach(news -> {
-//				kafkaTemplate.send("myTopic", new Gson().toJson(news));
-//			});
-//		else
-//			System.out.println("topic is null");
+		kafkaTemplate.send("myTopic",
+				new Topic(String.valueOf(UUID.randomUUID()), message, "kafka messaging"));
 	}
 
 	@GetMapping("/kafka/save")
