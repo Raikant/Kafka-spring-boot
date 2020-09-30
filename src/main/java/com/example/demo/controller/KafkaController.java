@@ -26,8 +26,6 @@ public class KafkaController {
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
-	private WebClient.Builder webClientBuilder;
-	@Autowired
 	private IndustryNewsRepository newsRepository;
 
 	private String industry_news_uri = "http://api.saverisk.com/rest/v1/company?key=0de23766-f58a-4168-814c-bd578d92e635&d=PF_Industry_News&q=";

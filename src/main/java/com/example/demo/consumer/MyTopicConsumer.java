@@ -20,7 +20,7 @@ public class MyTopicConsumer {
 		}
 	}
 
-	@KafkaListener(topics = "myTopicJson", groupId = "kafka-sandbox-json", containerFactory = "TopicKafkaListenerContainerFactory")
+	@KafkaListener(topics = "myTopicJson", groupId = "kafka-sandbox-json")
 	public void consumeJson(Topic topic) {
 		System.out.println("Consumed a json message: " + topic);
 	}

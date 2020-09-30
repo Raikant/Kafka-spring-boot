@@ -15,8 +15,14 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.example.demo.entity.Topic;
 
-@EnableKafka
-@Configuration
+/**
+ * Disabling this configuration for now as consumer and producer properties are being handles
+ *from application.properties file
+ * @author ravipathak
+ *
+ */
+//@EnableKafka
+//@Configuration
 public class ConsumerConfiguration {
 	private static final String KAFKA_BROKER = "localhost:9092";
 	private static final String GROUP_ID = "kafka-sandbox";
