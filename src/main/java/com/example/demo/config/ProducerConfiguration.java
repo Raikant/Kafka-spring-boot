@@ -17,10 +17,10 @@ import com.example.demo.entity.Topic;
 /**
  * 
  * @author ravipathak
+ * Removed configuration annotation
  *Disabling this configuration for now as consumer and producer properties are being handles
  *from application.properties file
  */
-//@Configuration
 public class ProducerConfiguration {
 	private static final String KAFKA_BROKER = "localhost:9092";
 

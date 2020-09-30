@@ -6,26 +6,27 @@ import java.util.List;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entity.Person;
 import com.example.demo.entity.Topic;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class MyTopicConsumer {
-	private final List<String> messages = new ArrayList<>();
+	private final List<Object> messages = new ArrayList<>();
 
-	@KafkaListener(topics = "myTopic", groupId = "kafka-sandbox")
-	public void listen(String message) {
-		System.out.println(message);
-		synchronized (messages) {
-			messages.add(message);
-		}
+	@KafkaListener(topics = "topic", groupId = "kafka-sandbox")
+	public void topics(List<Topic> topics) {
+		log.info("topic: {}", topics);
 	}
 
-	@KafkaListener(topics = "myTopicJson", groupId = "kafka-sandbox-json")
-	public void consumeJson(Topic topic) {
-		System.out.println("Consumed a json message: " + topic);
+	@KafkaListener(topics = "person", groupId = "kafka-sandbox-json")
+	public void persons(List<Person> persons) {
+		log.info("person: {}", persons);
 	}
 
-	public List<String> getMessages() {
+	public List<Object> getMessages() {
 		return messages;
 	}
 }
