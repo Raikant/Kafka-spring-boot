@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.demo.consumer.MyTopicConsumer;
 import com.example.demo.entity.IndustryNews;
@@ -40,12 +37,18 @@ public class KafkaController {
 
 	@GetMapping("/kafka/publish/topic")
 	public void topic(@RequestBody List<Topic> topics) {
+
 		kafkaTemplate.send("topic", topics);
 	}
 
 	@GetMapping("/kafka/publish/person")
 	public void person(@RequestBody List<Person> persons) {
 		kafkaTemplate.send("person", persons);
+	}
+
+	@GetMapping("/kafka/publish/stream")
+	public void stream(@RequestBody String sentence) {
+		kafkaTemplate.send("streams-plaintext-input",sentence);
 	}
 
 	@GetMapping("/kafka/save")
